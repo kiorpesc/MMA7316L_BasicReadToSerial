@@ -264,8 +264,10 @@ int AcceleroMMA7361::_mapMMA7361G(int value)
 /// WARNING WHEN CALIBRATED YOU HAVE TO MAKE SURE THE Z-AXIS IS PERPENDICULAR WITH THE EARTHS SURFACE
 void AcceleroMMA7361::calibrate()
 {
+#ifdef DEBUG
   Serial.println(getOrientation());
   Serial.print("\nCalibrating MMA7361011");
+#endif
   double var = 5000;
   double sumX = 0;
   double sumY = 0;
@@ -275,10 +277,12 @@ void AcceleroMMA7361::calibrate()
     sumX = sumX + getXVolt();
     sumY = sumY + getYVolt();
     sumZ = sumZ + getZVolt();
+#ifdef DEBUG
     if (i%100 == 0)
     {
       Serial.print(".");
     }
+#endif
   }
   if (_sensi == false)
   {
@@ -290,12 +294,16 @@ void AcceleroMMA7361::calibrate()
   }
   if (abs(getOrientation())!=3)
   {
+#ifdef DEBUG
     Serial.print("\nunable to calibrate");
+#endif
     setOffSets(0,0,0);
   }
   else
   {
+#ifdef DEBUG
     Serial.print("\nDONE");
+#endif
   }
 }
 
